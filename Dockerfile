@@ -12,6 +12,6 @@ RUN /usr/local/bin/install-plugins.sh \
     workflow-aggregator
 
 # Config jenkins
-ADD jenkins_home/config.xml /var/jenkins_home/config.xml
+ADD jenkins_config/config.xml /var/jenkins_home/config.xml
 
 USER jenkins
