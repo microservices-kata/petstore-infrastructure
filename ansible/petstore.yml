@@ -1,0 +1,55 @@
+---
+
+- hosts: pipeline-node,deployment-node
+  become: true
+  roles:
+  - role: ansible-role-docker
+  tasks:
+  - name: 'Install puthon docker module'
+    pip:
+      name: docker
+      state: present
+
+- hosts: pipeline-node
+  become: true
+  tasks:
+  - name: create jenkins container
+    docker_container:
+      name: jenkins
+      image: flin/jenkins-v2-basic:2.63
+      state: started
+      restart_policy: always
+      network_mode: host
+      env:
+        JENKINS_OPTS: "--httpPort=8000"
+  - name: create registry container
+    docker_container:
+      name: registry
+      image: registry:2
+      state: started
+      restart_policy: always
+      ports:
+       - "5000:5000"
+
+- hosts: deployment-node
+  become: true
+  tasks:
+  - name: create mysql container
+    docker_container:
+      name: mysql
+      image: registry:2
+      state: started
+      restart_policy: always
+      env:
+        MYSQL_ROOT_PASSWORD: "root"
+      ports:
+       - "3306:3306"
+  - name: create mongodb container
+    docker_container:
+      name: registry
+      image: registry:2
+      state: started
+      restart_policy: always
+      ports:
+       - "5000:5000"
+
