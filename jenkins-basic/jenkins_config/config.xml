@@ -2,9 +2,9 @@
 <hudson>
   <disabledAdministrativeMonitors/>
   <version>1.0</version>
-  <numExecutors>2</numExecutors>
+  <numExecutors>6</numExecutors>
   <mode>NORMAL</mode>
-  <useSecurity>true</useSecurity>
+  <useSecurity>false</useSecurity>
   <authorizationStrategy class="hudson.security.AuthorizationStrategy$Unsecured"/>
   <securityRealm class="hudson.security.HudsonPrivateSecurityRealm">
     <disableSignup>true</disableSignup>
