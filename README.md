@@ -1,4 +1,4 @@
 # petstore-pipeline
 
-Dockerfile and Ansible scripts to initialize pipeline instance.
+Dockerfile and Ansible scripts to initialize infrastructure instances.
 
