@@ -27,7 +27,7 @@ This service should be setup first, before any other ones below.
 Before comamnd would setup a minimum docker container image registry, without Web UI.
 
 ```
-$ docker run -d -p --name registry \
+$ docker run -d --name registry \
          -v /opt/registry_data:/var/lib/registry \
          --restart always -p 5000:5000 \
          registry:2
@@ -41,7 +41,8 @@ Registry will listen on `5000` port of the host.
 The service run on `http` protocol by default, which is not trusted by docker. So an explicit `--insecure-registry` paramter is needed on `dockerd` service.
 
 ```
-$ sudo sed -i 's#/usr/bin/dockerd#/usr/bin/dockerd --insecure-registry 10.71.84.160:5000#' \
+$ REGISTRY_HOST=10.71.84.160         #<= Change this IP to your own registry host IP
+$ sudo sed -i 's#/usr/bin/dockerd#/usr/bin/dockerd --insecure-registry REGISTRY_HOST:5000#' \
        /lib/systemd/system/docker.service
 $ sudo systemctl daemon-reload
 $ sudo systemctl restart docker
@@ -49,9 +50,14 @@ $ sudo systemctl restart docker
 
 ## Jenkins
 
-Open source delivery pipeline dashboard. You could start its container via docker command:
+Open source delivery pipeline dashboard. You could start its container via docker command.
+
+The default user in this image is `jenkins`, 
+so you may need to grant full access to `/opt/jenkins_data` in order to let jenkins service initialize successfully.
 
 ```
+$ sudo mkdir /opt/jenkins_data
+$ sudo chmod 777 /opt/jenkins_data
 $ docker run -dt --name jenkins \
          -v /opt/jenkins_data:/var/jenkins_home \
          --network=host \
