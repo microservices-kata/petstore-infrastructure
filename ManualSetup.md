@@ -60,14 +60,17 @@ $ sudo mkdir /opt/jenkins_data
 $ sudo chmod 777 /opt/jenkins_data
 $ docker run -dt --name jenkins \
          -v /opt/jenkins_data:/var/jenkins_home \
-         --network=host \
+         -v /usr/lib/x86_64-linux-gnu/libltdl.so.7:/usr/lib/x86_64-linux-gnu/libltdl.so.7 \
+         -v /var/run/docker.sock:/var/run/docker.sock \
+         -v /usr/bin/docker:/usr/bin/docker \
+         --user root \
+         --network host \
          --restart always \
          -e JENKINS_OPTS="--httpPort=8000" \
          jenkinsci/jenkins
 ```
 
-> For Mac docker user: <br>
-> You may have to change `-v /opt/jenkins_data:/var/jenkins_home` parameter to something like `-v ${HOME}/jenkins_data:/var/jenkins_home` to avoid the permission issue, or you could follow [the docs](https://docs.docker.com/docker-for-mac/troubleshoot/#volume-mounting-requires-file-sharing-for-any-project-directories-outside-of-users) to allow docker to mount in the `/opt` folder.
+> This command only works on `Linux` server. Other system user may have to use jenkins image with docker binaries installed inside, e.g. [here](https://github.com/microservices-kata/petstore-infrastructure/tree/master/jenkins-basic).
 
 Jenkins will listen on `8000` port of the host.
 
