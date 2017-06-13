@@ -42,8 +42,20 @@ The service run on `http` protocol by default, which is not trusted by docker. S
 
 ```
 $ REGISTRY_HOST=10.71.84.160         #<= Change this IP to your own registry host IP
-$ sudo sed -i 's#/usr/bin/dockerd#/usr/bin/dockerd --insecure-registry REGISTRY_HOST:5000#' \
+$ sudo sed -i "s#/usr/bin/dockerd#/usr/bin/dockerd --insecure-registry $REGISTRY_HOST:5000#" \
        /lib/systemd/system/docker.service
+```
+
+Also enable remote API port for all nodes that will be used to deploy petstore services.
+
+```
+$ sudo sed -i "s#-H fd://#-H tcp://0.0.0.0:2376 -H unix:///var/run/docker.sock#g" \
+        /lib/systemd/system/docker.service
+```
+
+Finally, reload systemd config and restart docker daemon.
+
+```
 $ sudo systemctl daemon-reload
 $ sudo systemctl restart docker
 ```
@@ -73,10 +85,6 @@ $ docker run -dt --name jenkins \
 > This command only works on `Linux` server. Other system user may have to use jenkins image with docker binaries installed inside, e.g. [here](https://github.com/microservices-kata/petstore-infrastructure/tree/master/jenkins-basic).
 
 Jenkins will listen on `8000` port of the host.
-
-Prepare a machine with `java`, `maven`, `docker` and `git` installed, then add it to jenkins as a slave node with tag `microservice`.
-
-Prepare a machine with `docker` install as dev deployment node. Add the jenkins slave node's ssh public key into `${HOME}/.ssh/authorized_keys` file of the deployment node.
 
 ## Pact Broker
 
