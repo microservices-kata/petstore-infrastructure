@@ -1,11 +1,21 @@
 # Jenkins Basic
 
-Jenkins service with user authentication disabled and docker service inside.
+This image simply have maven tool, docker service, and basic plugins installed,
+for easier automation setup pipeline.
+
+What's inside:
+
+- Jenkins v2.75
+- Docker 17.06.1-ce
+- Jdk 1.8.0
+- Maven 3.5
+- Jenkins Git Plugin
+- Jenkins Pipeline Plugin
 
 ## Build it
 
 ```
-$ docker build -t jenkins2-basic .
+$ docker build -t jenkins-v2-basic .
 ```
 
 ## Run it
@@ -14,7 +24,7 @@ $ docker build -t jenkins2-basic .
 $ docker run -dt --name jenkins \
         -p 8000:8000 \
         -e REGISTRY_IP=<your-http-registry-ip> \
-        jenkins2-basic
+        jenkins-v2-basic
 ```
 
 Visit `8080` port, you would see a running Jenkins.
