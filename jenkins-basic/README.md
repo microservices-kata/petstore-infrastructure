@@ -1,6 +1,6 @@
 # Jenkins Basic
 
-Jenkins service with user authentication disabled and docker cli inside.
+Jenkins service with user authentication disabled and docker service inside.
 
 ## Build it
 
@@ -12,8 +12,8 @@ $ docker build -t jenkins2-basic .
 
 ```
 $ docker run -dt --name jenkins \
-        -p 8080:8080 \
-        -v /var/run/docker.sock:/var/run/docker.sock \
+        -p 8000:8000 \
+        -e REGISTRY_IP=<your-http-registry-ip> \
         jenkins2-basic
 ```
 
