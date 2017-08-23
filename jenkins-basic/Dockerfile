@@ -19,6 +19,5 @@ RUN /usr/local/bin/install-plugins.sh \
 
 # Set entry script and disable login
 ADD entrypoint.sh /entrypoint.sh
-RUN chmod +x /entrypoint.sh && \
-    sed -i 's#<useSecurity>true</useSecurity>#<useSecurity>false</useSecurity>#' /var/jenkins_home/config.xml
+RUN chmod +x /entrypoint.sh
 ENTRYPOINT /entrypoint.sh
