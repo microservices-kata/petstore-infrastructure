@@ -17,9 +17,8 @@ RUN /usr/local/bin/install-plugins.sh \
   git \
   workflow-aggregator
 
-# Config jenkins
-ADD jenkins_config/config.xml /var/jenkins_home/config.xml
-
-# Set entry script
+# Set entry script and disable login
 ADD entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh && \
+    sed -i 's#<useSecurity>true</useSecurity>#<useSecurity>false</useSecurity>#' /var/jenkins_home/config.xml
 ENTRYPOINT /entrypoint.sh
