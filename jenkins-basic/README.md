@@ -3,6 +3,8 @@
 This image simply have maven tool, docker service, and basic plugins installed,
 for easier automation setup pipeline.
 
+This image is already in Dockerhub, named `flin/jenkins-v2-basic:2.75`.
+
 What's inside:
 
 - Jenkins v2.75
@@ -27,5 +29,5 @@ $ docker run -dt --name jenkins \
         jenkins-v2-basic
 ```
 
-Visit `8080` port, you would see a running Jenkins.
+Visit `8000` port, you would see a running Jenkins.
 
