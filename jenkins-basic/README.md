@@ -3,7 +3,8 @@
 This image simply have maven tool, docker service, and basic plugins installed,
 for easier automation setup pipeline.
 
-This image is already in Dockerhub, named `flin/jenkins-v2-basic:2.75`.
+This image is already in Dockerhub.
+Link: [flin/jenkins-v2-basic:2.75](https://hub.docker.com/r/flin/jenkins-v2-basic/).
 
 What's inside:
 
