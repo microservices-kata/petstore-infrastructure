@@ -139,7 +139,8 @@ NoSQL service.
 ```
 $ docker run -d --name mongo \
        -v /opt/mongo:/data/db \
-       --network=host mongo --auth
+       -p 27017:27017 \
+       mongo --auth
 ```
 
 - 2. setup user
