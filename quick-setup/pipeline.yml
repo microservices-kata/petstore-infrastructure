@@ -9,7 +9,7 @@
       image: flin/jenkins-v2-basic:2.75
       state: started
       restart_policy: always
-      network_mode: host
+      privileged: true
       ports:
        - "8000:8000"
   - name: create gogs container

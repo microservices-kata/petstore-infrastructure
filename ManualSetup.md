@@ -74,6 +74,7 @@ $ docker run -dt --name jenkins \
          -v /opt/jenkins_data:/var/jenkins_home \
          -p 8000:8000 \
          -p 10022:22 \
+         --privileged \
          --restart always \
          flin/jenkins-v2-basic:2.75
 ```
