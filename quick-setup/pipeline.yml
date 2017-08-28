@@ -12,6 +12,8 @@
       privileged: true
       ports:
        - "8000:8000"
+      env:
+        REGISTRY_IP: "{{ registry_ip }}"
   - name: create gogs container
     docker_container:
       name: gogs
