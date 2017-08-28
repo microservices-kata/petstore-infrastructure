@@ -1,0 +1,11 @@
+---
+
+- hosts: pipeline-node,deployment-node
+  become: true
+  roles:
+  - role: ansible-role-docker
+  tasks:
+  - name: 'Install python docker module'
+    pip:
+      name: docker
+      state: present

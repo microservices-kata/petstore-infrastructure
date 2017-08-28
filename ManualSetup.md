@@ -72,14 +72,10 @@ $ sudo mkdir /opt/jenkins_data
 $ sudo chmod 777 /opt/jenkins_data
 $ docker run -dt --name jenkins \
          -v /opt/jenkins_data:/var/jenkins_home \
-         -v /usr/lib/x86_64-linux-gnu/libltdl.so.7:/usr/lib/x86_64-linux-gnu/libltdl.so.7 \
-         -v /var/run/docker.sock:/var/run/docker.sock \
-         -v /usr/bin/docker:/usr/bin/docker \
-         --user root \
-         --network host \
+         -p 8000:8000 \
+         -p 10022:22 \
          --restart always \
-         -e JENKINS_OPTS="--httpPort=8000" \
-         jenkinsci/jenkins
+         flin/jenkins-v2-basic:2.75
 ```
 
 > This command only works on `Linux` server. Other system user may have to use jenkins image with docker binaries installed inside, e.g. [here](https://github.com/microservices-kata/petstore-infrastructure/tree/master/jenkins-basic).

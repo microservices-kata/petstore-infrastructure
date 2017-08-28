@@ -1,0 +1,30 @@
+---
+
+- hosts: pipeline-node
+  become: true
+  tasks:
+  - name: create jenkins container
+    docker_container:
+      name: jenkins
+      image: flin/jenkins-v2-basic:2.75
+      state: started
+      restart_policy: always
+      network_mode: host
+      ports:
+       - "8000:8000"
+  - name: create gogs container
+    docker_container:
+      name: gogs
+      image: gogs/gogs
+      state: started
+      restart_policy: always
+      ports:
+       - "3000:3000"
+  - name: create registry container
+    docker_container:
+      name: registry
+      image: registry:2
+      state: started
+      restart_policy: always
+      ports:
+       - "5000:5000"

@@ -1,0 +1,81 @@
+---
+
+- hosts: deployment-node
+  become: true
+  tasks:
+  - name: Install python mongo package
+    pip:
+      name: mongo
+      state: present
+  - name: Install python postgresql package
+    pip:
+      name: psycopg2
+      state: present
+  - name: create postgres container
+    docker_container:
+      name: pactbroker-db
+      image: postgres
+      state: started
+      restart_policy: always
+      env:
+        POSTGRES_PASSWORD: "ThePostgresPassword"
+        POSTGRES_USER: "admin"
+        PGDATA: "/data/pgdata"
+      ports:
+      - "5432:5432"
+    notify:
+    - create pactbroker db user
+    - create pactbroker db schema
+    - create pactbroker container
+  - name: create mysql container
+    docker_container:
+      name: mysql
+      image: registry:2
+      state: started
+      restart_policy: always
+      env:
+        MYSQL_ROOT_PASSWORD: "root"
+      ports:
+       - "3306:3306"
+  - name: create mongodb container
+    docker_container:
+      name: mongodb
+      image: mongo:3.5
+      state: started
+      restart_policy: always
+      ports:
+       - "27017:27017"
+    notify:
+    - create mongodb user
+  handler:
+  - name: create mongodb user
+    mongodb_user:
+      login_host: "{{ mongodb_ip }}"
+      database: admin
+      user: root
+      password: root
+      state: present
+      roles: root
+  - name: create pactbroker db user
+    postgresql_user:
+      name: pactbrokeruser
+      password: TheUserPassword
+      state: present
+  - name: create pactbroker db schema
+    postgresql_schema:
+      name: pactbroker
+      owner: pactbrokeruser
+      state: present
+  - name: create pactbroker container
+    docker_container:
+      name: pactbroker
+      image: dius/pact-broker
+      state: started
+      restart_policy: always
+      env:
+        PACT_BROKER_DATABASE_USERNAME: "pactbrokeruser"
+        PACT_BROKER_DATABASE_PASSWORD: "TheUserPassword"
+        PACT_BROKER_DATABASE_HOST: "{{ postgresql_ip }}"
+        PACT_BROKER_DATABASE_NAME: "pactbroker"
+      ports:
+       - "2000:80"

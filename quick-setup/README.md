@@ -45,10 +45,11 @@ Some basic Ansible knowledge about this two files, check [intro_inventory](http:
 ## 4. Test connection
 
 ```
-$ ansible all -m ping
+$ ansible all -i hosts.dev -m ping
+$ ansible all -i hosts.prod -m ping
 ```
 
-You should see green `SUCCESS` for each node configured in `hosts` file. If any thing goes wrong, fix them before continue.
+You should see green `SUCCESS` for each node configured in inventory files. If any thing goes wrong, fix them before continue.
 
 > If you didn't put ssh key to the remote machines in step 1, you should add `--ask-pass` parameter, ansible will prompt input password when executing.
 
@@ -65,13 +66,19 @@ $ ansible-galaxy install -p roles git+https://github.com/avinetworks/ansible-rol
 Trigger and wait all node become ready. If anything goes wrong in this step, you may consider raising an issue on this repo.
 
 ```
-$ ansible-playbook petstore.yml
+$ ansible-playbook -i hosts.dev init.yml
+$ ansible-playbook -i hosts.dev pipeline.yml
+$ ansible-playbook -i hosts.dev deployment.yml
+
+$ ansible-playbook -i hosts.prod init.yml
+$ ansible-playbook -i hosts.prod deployment.yml
 ```
 
 > Again, put a `--ask-pass` parameter if you didn't have ssh key added to remote machines in step 1.
 
 ## Congratulation
 
-Visit the `8000` port on pipeline node, there should have a runing Jenkins service waiting for you. Change the pipeline settings according to you need.
+Visit the `8000` port on pipeline node, there should have a runing Jenkins service waiting for you.
+Change the pipeline settings according to you need.
 
 Now grab a keyboard and you could just start coding from there.
